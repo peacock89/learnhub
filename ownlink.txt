@@ -1,0 +1,58 @@
+
+ function pck_plugin_activate() {
+  pck_plugin_rules();
+  flush_rewrite_rules();
+ }
+
+ function pck_plugin_deactivate() {
+  flush_rewrite_rules();
+ }
+
+ function pck_plugin_rules() {
+  
+  add_rewrite_rule('^mypage/([^/]*)/([^/]*)/([^/]*)/([^/]*)/?','index.php?pagename=mypage&first=$matches[1]&second=$matches[2]&third=$matches[3]&four=$matches[4]','top');
+  
+ }
+
+ function pck_plugin_query_vars($vars) {
+  $vars[] = 'first';
+  $vars[] = 'second';
+  $vars[] = 'third';
+  $vars[] = 'four';
+
+  return $vars; 
+ }
+
+ function pck_plugin_display() {
+  $pck_page = get_query_var('pagename');
+  $pck_id = get_query_var('first');
+  $second_page_id = get_query_var('second');
+  $third_page_id = get_query_var('third');
+  $fourth_page_id = get_query_var('four');
+
+  
+   if ('mypage' == $pck_page && '' == $pck_id):
+   //show all products
+   	  
+   exit;
+   elseif ('mypage' == $pck_page && '' != $pck_id):
+   //show product page
+   
+   exit;
+  endif;
+
+  
+ }
+
+ //register activation function
+ register_activation_hook(__FILE__, 'pck_plugin_activate');
+ //register deactivation function
+ register_deactivation_hook(__FILE__, 'pck_plugin_deactivate');
+ //add rewrite rules in case another plugin flushes rules
+ add_action('init', 'pck_plugin_rules');
+ //add plugin query vars (product_id) to wordpress
+ add_filter('query_vars', 'pck_plugin_query_vars');
+ //register plugin custom pages display
+ add_filter('template_redirect', 'pck_plugin_display');
+
+ 

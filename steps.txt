@@ -1,0 +1,12 @@
+git init
+
+git status
+
+git add filename.extension 
+
+git commit -m "filename.extension"
+
+git push
+
+
+
