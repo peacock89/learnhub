@@ -2,7 +2,7 @@ git init
 
 git status
 
-git add filename.extension 
+git add filename.extension or git add .
 
 git commit -m "filename.extension"
 
